@@ -1,9 +1,9 @@
 # Security Assessment Report
 ## MWR CyberSec — Internship Application Portal
 
-**Assessor:** [Your Name]
-**TryHackMe Username:** [Your THM Username]
-**Date of Assessment:** [Date]
+**Assessor:** [Nozimanga Tshabalala]
+**TryHackMe Username:** [nozimangatshabalala58]
+**Date of Assessment:** [10 September 2026]
 **Report Version:** 1.0
 
 ---
