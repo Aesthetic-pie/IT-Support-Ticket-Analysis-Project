@@ -70,18 +70,20 @@ Implement server-side authorization checks on every resource access. Before retu
 **Flag:** MWR{5EBBAC4C3AF798E} [NB: This is the voucher code I retrieved from manipulating the purchase form]
 
 **Description:**
-[After the user purchases the voucher of their choice with simulated bank card details, the balance on the user's MWR bucks does not decrease to show that they've spent their MWR bucks to buy their voucher, and when I check on http history of that specific activity on Burpsuite using the Repeater,I discovered that the voucher details after the actual purchase, like the cvv number, the voucher amount and the expiry date can be altered by the attacker so that they can purchase another voucher of their choice. The root cause of this vulnerability is that the details that are used to purchase the voucher are simulated card details, not real user details, and in that way, the web application cannot verify whether the user card details are real or not, and that puts the user's personal information at risk because it means that the attacker will now alter with their card details to also buy themselves the voucher.]
+After the user purchases the voucher of their choice with simulated bank card details, the balance on the user's MWR bucks does not decrease to show that they've spent their MWR bucks to buy their voucher, and when I check on http history of that specific activity on Burpsuite using the Repeater,I discovered that the voucher details after the actual purchase, like the cvv number, the voucher amount and the expiry date can be altered by the attacker so that they can purchase another voucher of their choice. The root cause of this vulnerability is that the details that are used to purchase the voucher are simulated card details, not real user details, and in that way, the web application cannot verify whether the user card details are real or not, and that puts the user's personal information at risk because it means that the attacker will now alter with their card details to also buy themselves the voucher.
 
 **Reproduction Steps:**
-1. [Act as a normal user and interact with the website as burpsuite records every http activity within the site, and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123. ]
-2. [After the purchase I then went to the http history and checked out the activity with url of /api/vouchers/purchase and sent it to the repeater using ctrl+R combination.]
-3. [Before modifying any request to ensure that I did get the voucher value I got on the web application. I then altered the user card deatils, more specifically the amount to 120 and altered the CVV to 368 and that is how I successfully bought another voucher from an attacker's perspective.]
+1. Act as a normal user and interact with the website as burpsuite records every http activity within the site, and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123.
+2. After the purchase I then went to the http history and checked out the activity with url of /api/vouchers/purchase and sent it to the repeater using ctrl+R combination.
+3. Before modifying any request to ensure that I did get the voucher value I got on the web application. I then altered the user card details, more specifically the amount to 120 and altered the CVV to 368 and that is how I successfully bought another voucher from an attacker's perspective.
 
 **Business Impact:**
-[What is the real-world impact if this vulnerability were exploited? Consider data confidentiality, integrity, availability, and regulatory or compliance implications.]
+Since the users' private banking details are not secured, they can be used by attackers to their own advantage, which could lead to broken trust because customers no longer trust the platform as they will be convinced that their information is not safe and this will lead to them leaving the platform, which could lead to fewer sales and financial loss for the platform. Also with regards to financial loss, the platform might end up running at a loss because attackers can now manipulate the users' banking details to buy their own vouchers, which will make the platform to lose profit and run at a loss. The web application cannot verify whether the user gave existing banking details or not, since it is a simulated voucher purchase. This could lead to escalated security risks such as fraud because the attackers might end up using this vulnerability to try other tricks on the platform to convince the users into giving out their extra personal information for their own advantage, which will affect the platform's reputation
 
 **Screenshot References:**
-- [List screenshot filenames that support this finding]
+- Vulnerability_01_normal_request.png
+- Vulnerability_01_manipulated_request.png
+- Vulnerability_01_exploitation_proof.png
 
 **Remediation:**
 [How should the development team fix this? Be specific and actionable.]
