@@ -81,9 +81,9 @@ After the user purchases the voucher of their choice with simulated bank card de
 Since the users' private banking details are not secured, they can be used by attackers to their own advantage, which could lead to broken trust because customers no longer trust the platform as they will be convinced that their information is not safe and this will lead to them leaving the platform, which could lead to fewer sales and financial loss for the platform. Also with regards to financial loss, the platform might end up running at a loss because attackers can now manipulate the users' banking details to buy their own vouchers at no cost, which will make the platform to lose profit and run at a loss. The web application cannot verify whether the user gave existing banking details or not, since it is a simulated voucher purchase. This could lead to escalated security risks such as fraud because the attackers might end up using this vulnerability to try other tricks on the platform to convince the users into giving out their extra personal information for their own advantage, which will affect the platform's reputation
 
 **Screenshot References:**
-- Vulnerability_01_normal_request.png
-- Vulnerability_01_manipulated_request.png
-- Vulnerability_01_exploitation_proof.png
+- Vulnerability_01_normal_request.png  [this is where I sent a normal request to verify if every detail was there before I altered anything]
+- Vulnerability_01_manipulated_request.png [this is where I altered the cvv and voucher amount of 120 before I sent another request]
+- Vulnerability_01_exploitation_proof.png [this is where I got the voucher code for an unauthorized 120 voucher] 
 
 **Remediation:**
 - For the verification of banking details for the voucher purchase, the development team should introduce a Multi-Factor Authentication [MFA] platform or API that will serve as an extra layer for security purposes. Before the user purchases a voucher, it should verify with the user's banking app, ask them a personal security question or request for a biometric verification so that the transaction can be verified. This platform or API should also notify the users if there is a suspicious transaction or activity that is happening in their account so that they can report it in a timely manner to prevent the issue escalating further.
