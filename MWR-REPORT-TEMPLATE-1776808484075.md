@@ -86,7 +86,9 @@ Since the users' private banking details are not secured, they can be used by at
 - Vulnerability_01_exploitation_proof.png
 
 **Remediation:**
-[How should the development team fix this? Be specific and actionable.]
+- For the verification of banking details for the voucher purchase, the development team should introduce a Multi-Factor Authentication [MFA] platform or API that will serve as an extra layer for security purposes. Before the user purchases a voucher, it should verify with the user's banking app, ask them a personal security question or request for a biometric verification so that the transaction can be verified. This platform or API should also notify the users if there is a suspicious transaction or activity that is happening in their account so that they can report it in a timely manner to prevent the issue escalating further.
+- For the insecure users' banking details in the backend, the development team should add an extra security layer in the backend that encrypts the users' personal information so that attackers can hardly read the information and make it harder for them to get access to the user's personal information, This will  enhance the users' privacy.
+- For the voucher purchase to correspond with the MWR balance for integrity purposes, the development team should introduce a platform or a machine learning model that will ensures that each and every transaction that occurs in voucher purchase follows  the ACID transactions rule. A for Atomicity, which means that the voucher transaction either completes fully or not at all. C for Consistency, which means that the MWR bucks balance should remain mathematically correct before and after the user has purchased the voucher, I for Isolation, which means that multiple users can purchase the vouchers without their transactions intefering with one another. Lastly, D for Durability, which means even if the user has bought a voucher, the transaction stays recorded and the balance stays the same even if the platform crashes. 
 
 - - -
 
