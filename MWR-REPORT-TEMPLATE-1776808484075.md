@@ -1,9 +1,9 @@
 # Security Assessment Report
 ## MWR CyberSec — Internship Application Portal
 
-**Assessor:** [Nozimanga Tshabalala]
-**TryHackMe Username:** [nozimangatshabalala58]
-**Date of Assessment:** [10 September 2026]
+**Assessor:** Nozimanga Tshabalala
+**TryHackMe Username:** nozimangatshabalala58
+**Date of Assessment:** 10 September 2026
 **Report Version:** 1.0
 
 ---
@@ -63,19 +63,19 @@ Implement server-side authorization checks on every resource access. Before retu
 
 - - -
 
-### Finding 2: [Title]
+### Finding 1: [Insecure Voucher Purchase Form]
 
-**Risk Rating:** [High / Medium / Low / Informational]
+**Risk Rating:** High 
 
-**Flag:** [MWR{...} or N/A]
+**Flag:** MWR{5EBBAC4C3AF798E} [NB: This is the voucher code I retrieved from manipulating the purchase form]
 
 **Description:**
-[What is the vulnerability? What is the root cause? Describe what the application does incorrectly and why it matters.]
+[After the user purchases the voucher of their choice with simulated bank card details, the balance on the user's MWR bucks does not decrease to show that they've spent their MWR bucks to buy their voucher, and when I check on http history of that specific activity on Burpsuite using the Repeater,I discovered that the voucher details after the actual purchase, like the cvv number, the voucher amount and the expiry date can be altered by the attacker so that they can purchase another voucher of their choice. The root cause of this vulnerability is that the details that are used to purchase the voucher are simulated card details, not real user details, and in that way, the web application cannot verify whether the user card details are real or not, and that puts the user's personal information at risk because it means that the attacker will now alter with their card details to also buy themselves the voucher.]
 
 **Reproduction Steps:**
-1. [Step-by-step instructions to reproduce the finding]
-2. [Be specific — include endpoints, parameters, and any values used]
-3. [Another assessor should be able to reproduce this from your steps alone]
+1. [Act as a normal user and interact with the website as burpsuite records every http activity within the site, and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123. ]
+2. [After the purchase I then went to the http history and checked out the activity with url of /api/vouchers/purchase and sent it to the repeater using ctrl+R combination.]
+3. [Before modifying any request to ensure that I did get the voucher value I got on the web application. I then altered the user card deatils, more specifically the amount to 120 and altered the CVV to 368 and that is how I successfully bought another voucher from an attacker's perspective.]
 
 **Business Impact:**
 [What is the real-world impact if this vulnerability were exploited? Consider data confidentiality, integrity, availability, and regulatory or compliance implications.]
