@@ -167,12 +167,10 @@ It is mandatory that each and every web application that asks the user for their
 The absence of terms of service and privacy policy poses a significant legal, financial and reputational risk on the web application. The web application could face regulatory fines for data privacy violations and be sued by the users. It could also reduce user trust because the absence of these documents exposes the organization to regulatory risk (e.g., under data protection laws such as POPIA/GDPR) and they are violating the user privacy rights, hence putting the reputation of the web application on the line. The absence of terms of services pose a significant threat on the web application because now this gives attackers privilege to use the customers information however they like and the exploit the web application to use it for fraudulent activities, which will make the web application lose sales and run at a loss.
 
 **Screenshot References:**
-- Vulnerability_01_normal_request.png
-- Vulnerability_01_manipulated_request.png
-- Vulnerability_01_exploitation_proof.png
+- Vulnerability_05_general_website.png
 
 **Remediation:**
-- To remediate this vulnerability, the development team should should sanitize API responses to ensure no sensitive values are disclosed in the backend for attackers. The development team should also ensure that the API review submission logic must enforce consistent handling of multiple reviews, either by rejecting duplicate submissions or updating existing reviews. Adopting strict API response schemas, implementing proper data segregation, and conducting regular security testing will prevent information disclosure and maintain data integrity.
+- To remediate this vulnerability, the development team should draft and implement a clear Privacy Policy and Terms of Service, accessible from when the user registers their account and checkout art pieces, outlining data handling practices. They should place clear and accessible link to both documents in the main navigation or footer across all pages of the web application. They should also establish a maintenance schedule for both of these documents so that they continuously review and update the policies whenever they deploy new features, change data collection practices or as data protection regulations evolve.
  
 ---
 ### Finding 5: [Insecure Voucher Purchase Form]
