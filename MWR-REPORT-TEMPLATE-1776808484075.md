@@ -92,11 +92,11 @@ Since the users' private banking details are not secured, they can be used by at
 
 - - -
 
-### Finding 2: [Insecure User login and account registration details]
+### Finding 2: [Inconsistent Review Handling]
 
-**Risk Rating:** High 
+**Risk Rating:** Medium
 
-**Flag:** N/A
+**Flag:** MWR{babfe5eeb88b3013f00f2f9743e7e584}
 
 **Description:**
 When a user login to their account or registers their account, their registration and login details, like email, username and password, are exposed in the backend, which makes things easier for the attacker to gain unauthorized access to the account and block the user out of their account. The root cause of this vulnerability is that there is no extra layer of verification that the user can use to constantly verify themselves that this is their account or being notified that there is someone that is trying to gain access to their account, and this might lead to the attackers seeing this information and gaining access to the user's account and changing the user's password so that they can block the user out of their own account, which leads to them now having full control of the user's account, which could put the users at risk as it gives attackers full access to perform fraudulent acts on the platform.
@@ -122,19 +122,20 @@ Since the users' registration and login information is exposed to attackers, att
 - To prevent the users from being logged out of their accounts, the development team should add the number of attempts that are allowed to login or reset the password, so that if the user continuously attempt to login to their account but they can't and they end up being told that their account is blocked, they should contact the support team of the platform to be assisted accordingly. 
 
 ---
-### Finding 3: [Insecure Voucher Purchase Form]
+### Finding 3: [Inconsistent review handling]
 
-**Risk Rating:** High 
+**Risk Rating:** Medium
 
-**Flag:** MWR{5EBBAC4C3AF798E} [NB: This is the voucher code I retrieved from manipulating the purchase form]
+**Flag:** MWR{babfe5eeb88b3013f00f2f9743e7e584} 
 
 **Description:**
-After the user purchases the voucher of their choice with simulated bank card details, the balance on the user's MWR bucks does not decrease to show that they've spent their MWR bucks to buy their voucher, and when I check on http history of that specific activity on Burpsuite using the Repeater,I discovered that the voucher details after the actual purchase, like the cvv number, the voucher amount and the expiry date can be altered by the attacker so that they can purchase another voucher of their choice. The root cause of this vulnerability is that the details that are used to purchase the voucher are simulated card details, not real user details, and in that way, the web application cannot verify whether the user card details are real or not, and that puts the user's personal information at risk because it means that the attacker will now alter with their card details to also buy themselves the voucher.
+A user cannot access the reviews unless they bought an art-piece. So in order to get access to the reviews, As a user I purchased an art-piece in order to submit a review about it. After submitting the review, the user can still submit other reviews but the problem is that the from the second review they submit, on the frontend it shows a duplicate of the first review and rating but when checking on the http history of writing the second review from an attacker's perspective on Burpsuite, the second review that is different from the first review exactly as the user rated it, it is there exactly as the user typed it, but it is on the request site, and the when the request is sent to the site, the response displays another duplicate review of the rating of the user, which shows that the API that is responsible for managing reviews is performing inconsistently. The root cause of this vulnerability is the poor performance of the API that is responsible for managing the reviews because the API is not handling review logic properly and is exposing unreliable behavior, as it ignores different reviews but still accepting the requests, as in it allows users to submit multiple reviews, and overwriting silently but only showing duplicates of the first review back to the client. This vulnerability matters because if it is not solved in a timely manner it can put the users and the platform's integrity at risk, allowing attackers to manipulate ratings and possibly inject misleading content.
 
 **Reproduction Steps:**
-1. Act as a normal user and interact with the website as burpsuite records every http activity within the site, register your account and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123.
-2. After the purchase I then went to the http history and checked out the activity with url of /api/vouchers/purchase and sent it to the repeater using ctrl+R combination.
-3. Before modifying any request to ensure that I did get the voucher value I got on the web application. I then altered the user card details, more specifically the amount to 120 and altered the CVV to 368 and that is how I successfully bought another voucher from an attacker's perspective.
+1. Act as a normal user and interact with the website as Burpsuite records every http activity within the site, register your account and purchase an artpiece.
+2. After the purchase I then went to the http history on Burpsuite from an attacker's perspective and checked out the activity url of /api/shop/images and sent it to the repeater using ctrl+R combination, and that is where I retrieved the flag value.
+3. I then interacted with the website again, went to the art-pieces I bought and wrote multiple different reviews on them, only to realize that the API returned duplicates of the first review.
+4. I then went back to the http history to check out the activity of the multiple different reviews I wrote and realised that on the request site the ratings and the comment are exactly as the way I wrote them on the web application when I submitted them, and when I sent the request on Burpsuite it returns the duplicate of the first comment.
 
 **Business Impact:**
 Since the users' private banking details are not secured, they can be used by attackers to their own advantage, which could lead to broken trust because customers no longer trust the platform as they will be convinced that their information is not safe and this will lead to them leaving the platform, which could lead to fewer sales and financial loss for the platform. Also with regards to financial loss, the platform might end up running at a loss because attackers can now manipulate the users' banking details to buy their own vouchers at no cost, which will make the platform to lose profit and run at a loss. The web application cannot verify whether the user gave existing banking details or not, since it is a simulated voucher purchase. This could lead to escalated security risks such as fraud because the attackers might end up using this vulnerability to try other tricks on the platform to convince the users into giving out their extra personal information for their own advantage, which will affect the platform's reputation
