@@ -138,12 +138,15 @@ A user cannot access the reviews unless they bought an art-piece. So in order to
 4. I then went back to the http history to check out the activity of the multiple different reviews I wrote and realised that on the request site the ratings and the comment are exactly as the way I wrote them on the web application when I submitted them, and when I sent the request on Burpsuite it returns the duplicate of the first comment.
 
 **Business Impact:**
-Since the users' private banking details are not secured, they can be used by attackers to their own advantage, which could lead to broken trust because customers no longer trust the platform as they will be convinced that their information is not safe and this will lead to them leaving the platform, which could lead to fewer sales and financial loss for the platform. Also with regards to financial loss, the platform might end up running at a loss because attackers can now manipulate the users' banking details to buy their own vouchers at no cost, which will make the platform to lose profit and run at a loss. The web application cannot verify whether the user gave existing banking details or not, since it is a simulated voucher purchase. This could lead to escalated security risks such as fraud because the attackers might end up using this vulnerability to try other tricks on the platform to convince the users into giving out their extra personal information for their own advantage, which will affect the platform's reputation
+Since the API mishandles multiple reviews, attackers could exploit this vulnerability to manipulate ratings or inject misleading content, which leads to data integrity risk as reviews are supposed to reflect genuine user feedback. It also leads to loss of trust & reputation, as customers rely on reviews to make purchase decisions, and if reviews don’t display correctly, users lose confidence in the platform’s fairness and reliability. Attackers could initiate a DDoS attack and flood the review management system to slow down the platform. Even if only the first review is shown, the backend may still store duplicates or inconsistent data, which could corrupt the reviews analytics. It also causes compliance issues, as inaccurate handling of user generated content could violate consumer protection standards.
 
 **Screenshot References:**
-- Vulnerability_01_normal_request.png
-- Vulnerability_01_manipulated_request.png
-- Vulnerability_01_exploitation_proof.png
+- Vulnerability_03_different_reviews_output.png
+- Vulnerability_03_flag_value.png
+- Vulnerability_03_fourth_review_request.png
+- Vulnerability_03_normal_request.png
+- Vulnerability_03_second_review_request.png
+- Vulnerability_03_third_review_request.png
 
 **Remediation:**
 - For the verification of banking details for the voucher purchase, the development team should introduce a Multi-Factor Authentication [MFA] platform or API that will serve as an extra layer for security purposes. Before the user purchases a voucher, it should verify with the user's banking app, ask them a personal security question or request for a biometric verification so that the transaction can be verified. This platform or API should also notify the users if there is a suspicious transaction or activity that is happening in their account so that they can report it in a timely manner to prevent the issue escalating further.
