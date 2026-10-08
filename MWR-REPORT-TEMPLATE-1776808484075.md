@@ -195,14 +195,14 @@ Because the application does not control what referrer information is shared, mo
 - The development team should make the web application to be configured to tell users' web browsers how much information they are allowed to share with third party applications when leaving the website. A recommended setting is: [Referrer-Policy: strict-origin-when-cross-origin]. This setting limits the amount of information sent to other websites while still allowing normal website functionality to work. A stricter policy can also be used if the application does not require referrer information to be shared. The referrer policy header should be added to the application's server responses so that it is consistently applied across the website.
   
 ---
-### Finding 6: [Insecure Voucher Purchase Form]
+### Finding 6: [Missing Content-Security-Policy (CSP) Header]
 
-**Risk Rating:** High 
+**Risk Rating:** Low
 
-**Flag:** MWR{5EBBAC4C3AF798E} [NB: This is the voucher code I retrieved from manipulating the purchase form]
+**Flag:** N/A
 
 **Description:**
-After the user purchases the voucher of their choice with simulated bank card details, the balance on the user's MWR bucks does not decrease to show that they've spent their MWR bucks to buy their voucher, and when I check on http history of that specific activity on Burpsuite using the Repeater,I discovered that the voucher details after the actual purchase, like the cvv number, the voucher amount and the expiry date can be altered by the attacker so that they can purchase another voucher of their choice. The root cause of this vulnerability is that the details that are used to purchase the voucher are simulated card details, not real user details, and in that way, the web application cannot verify whether the user card details are real or not, and that puts the user's personal information at risk because it means that the attacker will now alter with their card details to also buy themselves the voucher.
+The application does not have a Content-Security-Policy (CSP) header configured. A CSP is a security control that tells a user's web browser which websites and sources it is allowed to load content from, such as scripts, images, stylesheets, and other resources. Without this policy, the browser has fewer restrictions on what content can be loaded and executed within the web application. This means that if another vulnerability, such as a Cross-Site Scripting (XSS) vulnerability, were present in the application, there would be fewer browser-level protections to prevent malicious code from running. This is important because users may provide personal information or interact with pages containing account and transaction-related functionality. A CSP provides an additional layer of protection that can help reduce the impact of other security weaknesses.
 
 **Reproduction Steps:**
 1. Act as a normal user and interact with the website as burpsuite records every http activity within the site, register your account and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123.
