@@ -35,32 +35,6 @@ All findings in this report are rated using MWR CyberSec's standard risk rating 
 
 ## Findings
 
-### Finding 1: [Example]
-
-**Risk Rating:** High
-
-**Flag:** MWR{example_flag_if_applicable} *(enter N/A if no flag was returned)*
-
-**Description:**
-The application allows authenticated users to access resources belonging to other users by manipulating the resource identifier in the request. No server-side check verifies that the requesting user owns the resource before it is returned.
-
-**Reproduction Steps:**
-1. Authenticate as User A and capture your session token.
-2. Navigate to the resource endpoint and observe the resource identifier in the request (URL parameter, path segment, or request body field).
-3. Replace the resource identifier with one belonging to User B (obtained by registering a second account or through enumeration).
-4. Observe that User B's data is returned without an authorization error.
-
-**Business Impact:**
-An attacker could access, modify, or exfiltrate sensitive data belonging to any user of the application. In a real-world scenario, this could lead to data breaches, privacy violations, and regulatory non-compliance.
-
-**Screenshot References:**
-- screenshot_01_normal_request.png
-- screenshot_02_manipulated_request.png
-- screenshot_03_unauthorized_data_returned.png
-
-**Remediation:**
-Implement server-side authorization checks on every resource access. Before returning any resource, verify that the authenticated user has permission to access the requested item. Do not rely solely on client-supplied identifiers to determine ownership.
-
 - - -
 
 ### Finding 1: [Insecure Voucher Purchase Form]
