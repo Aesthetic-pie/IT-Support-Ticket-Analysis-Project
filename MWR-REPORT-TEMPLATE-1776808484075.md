@@ -10,13 +10,17 @@
 
 ## Executive Summary
 
-[Provide a high-level summary of your assessment. Include: the scope of testing performed, the total number of vulnerabilities identified, the overall risk posture of the application, and your key recommendations. This section should be understandable by a non-technical reader. Aim for 1-2 paragraphs.]
+A security assessment was conducted against the Imgurrr Mock Web Application to identify security weaknesses that could affect the web application's users, their information, and the overall security of the platform. The assessment was focused on the web application and did not include testing of the underlying host, operating system, or supporting infrastructure, except where permitted flag retrieval was required. A total of 12 vulnerabilities and security weaknesses were identified during the assessment, ranging from missing security protections and information disclosure issues to weaknesses that could potentially be used as part of a wider attack. Conducting a security assessment on an insecure web application like Imgurr has raised concerns on how important it is as a developer or a development team, to not rush into launching a web application without checking the security loopholes that are in it, that may end up putting the users on a risk, because customer safety, privacy, regulations and compliance were not considered when a web application was launched
+
+The overall risk posture of the application is concerning, as several of the identified weaknesses reduce the application's ability to protect users and their interactions with the platform. A recurring issue was the absence of important security headers, which provide browsers with additional instructions for protecting users from common web-based attacks. Other findings could provide attackers with useful information about the application or increase the potential impact of other vulnerabilities if they were exploited together. The key recommendation is for the development team to address the identified vulnerabilities before deploying the application in a production environment. This includes implementing the missing security headers, protecting user and application data from unnecessary exposure, keeping server software up to date, strengthening protections around sensitive functionality, and performing regular security testing throughout the development lifecycle. Security should be treated as a requirement from the beginning of development rather than something addressed only after an application has been completed.
 
 ---
 
 ## Methodology
 
 [Briefly describe the tools and techniques you used during the assessment. For example: manual testing with Burp Suite, browser developer tools, curl, custom scripts, etc. Include any approach you took to systematically cover the application's functionality.]
+
+
 
 ---
 
