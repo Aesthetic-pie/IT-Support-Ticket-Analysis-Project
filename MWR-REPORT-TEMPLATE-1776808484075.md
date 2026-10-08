@@ -176,6 +176,28 @@ Because the application does not control what referrer information is shared, mo
 **Flag:** N/A
 
 **Description:**
+The application does not have a Content-Security-Policy (CSP) header configured. A CSP is a security control that tells a user's web browser which websites and sources it is allowed to load content from, such as scripts, images, stylesheets, and other resources. Without this policy, the browser has fewer restrictions on what content can be loaded and executed within the web application. This means that if another vulnerability, such as a Cross-Site Scripting (XSS) vulnerability, were present in the application, there would be fewer browser-level protections to prevent malicious code from running. This is important because users may provide personal information or interact with pages containing account and transaction-related functionality. A CSP provides an additional layer of protection that can help reduce the impact of other security weaknesses. The root cause is that the web application has not been configured to send a Content-Security-Policy header in its responses. As a result, the user's browser is not given specific instructions about which sources the web application considers trusted. The web application therefore misses an opportunity to add an additional layer of protection against malicious or unexpected content being loaded or executed into the platform. It removes an important security layer that could help protect users if another vulnerability is discovered in the application, especially increasing the potential impact of attacks against users and exposing their browsing sessions and information.
+
+**Reproduction Steps:**
+1. Make sure that nikto is installed on your kali linux then type a command in the Kali Linux to allow nikto to scan website for any vulnerabilities using this command: nikto -h http://10.113.170.161, and that is where this vulnerability showed up.
+
+**Business Impact:**
+The main business impact is an increased level of risk of another web security vulnerability is present in the web application. Without a CSP, a successful attack such as XSS could potentially have a greater impact because the browser has fewer restrictions on what malicious content can do. Depending on the circumstances, this could allow an attacker to interfere with what a user sees, perform actions on their behalf, or attempt to access information available through the user's browser session. Although the missing CSP does not directly expose user information or provide an attacker with access to accounts, it removes an additional security control that could help limit the damage caused by other vulnerabilities.
+
+**Screenshot References:**
+- Nikto_Vulnerability_Scanning_Output.png
+
+**Remediation:**
+- The development team should implement a Content-Security-Policy that only allows the website to load content from trusted sources. A starting point could be: [Content-Security-Policy: default-src 'self']. This tells the browser to only load resources from the application's own trusted source by default. However, the policy should be tested and adjusted to match the web application's legitimate requirements. For example, if the Imgurr uses trusted external services for images, payment processing, fonts, or other functionality, those services may need to be explicitly allowed. Implementing a properly configured CSP will provide an additional layer of protection against malicious content and help reduce the potential impact of future web vulnerabilities.
+---
+
+### Finding 6: [Missing Content-Security-Policy (CSP) Header]
+
+**Risk Rating:** Low
+
+**Flag:** N/A
+
+**Description:**
 The application does not have a Content-Security-Policy (CSP) header configured. A CSP is a security control that tells a user's web browser which websites and sources it is allowed to load content from, such as scripts, images, stylesheets, and other resources. Without this policy, the browser has fewer restrictions on what content can be loaded and executed within the web application. This means that if another vulnerability, such as a Cross-Site Scripting (XSS) vulnerability, were present in the application, there would be fewer browser-level protections to prevent malicious code from running. This is important because users may provide personal information or interact with pages containing account and transaction-related functionality. A CSP provides an additional layer of protection that can help reduce the impact of other security weaknesses.
 
 **Reproduction Steps:**
@@ -194,7 +216,153 @@ Since the users' private banking details are not secured, they can be used by at
 **Remediation:**
 - For the verification of banking details for the voucher purchase, the development team should introduce a Multi-Factor Authentication [MFA] platform or API that will serve as an extra layer for security purposes. Before the user purchases a voucher, it should verify with the user's banking app, ask them a personal security question or request for a biometric verification so that the transaction can be verified. This platform or API should also notify the users if there is a suspicious transaction or activity that is happening in their account so that they can report it in a timely manner to prevent the issue escalating further.
 - For the insecure users' banking details in the backend, the development team should add an extra security layer in the backend that encrypts the users' personal information so that attackers can hardly read the information and make it harder for them to get access to the user's personal information, This will  enhance the users' privacy.
-- For the voucher purchase to correspond with the MWR balance for integrity purposes, the development team should introduce a platform or a machine learning model that will ensures that each and every transaction that occurs in voucher purchase follows  the ACID transactions rule. A for Atomicity, which means that the voucher transaction either completes fully or not at all. C for Consistency, which means that the MWR bucks balance should remain mathematically correct before and after the user has purchased the voucher, I for Isolation, which means that multiple users can purchase the vouchers without their transactions intefering with one another. Lastly, D for Durability, which means even if the user has bought a voucher, the transaction stays recorded and the balance stays the same even if the platform crashes. 
+- For the voucher purchase to correspond with the MWR balance for integrity purposes, the development team should introduce a platform or a machine learning model that will ensures that each and every transaction that occurs in voucher purchase follows  the ACID transactions rule. A for Atomicity, which means that the voucher transaction either completes fully or not at all. C for Consistency, which means that the MWR bucks balance should remain mathematically correct before and after the user has purchased the voucher, I for Isolation, which means that multiple users can purchase the vouchers without their transactions intefering with one another. Lastly, D for Durability, which means even if the user has bought a voucher, the transaction stays recorded and the balance stays the same even if the platform crashes.
+
+---
+
+### Finding 6: [Missing Content-Security-Policy (CSP) Header]
+
+**Risk Rating:** Low
+
+**Flag:** N/A
+
+**Description:**
+The application does not have a Content-Security-Policy (CSP) header configured. A CSP is a security control that tells a user's web browser which websites and sources it is allowed to load content from, such as scripts, images, stylesheets, and other resources. Without this policy, the browser has fewer restrictions on what content can be loaded and executed within the web application. This means that if another vulnerability, such as a Cross-Site Scripting (XSS) vulnerability, were present in the application, there would be fewer browser-level protections to prevent malicious code from running. This is important because users may provide personal information or interact with pages containing account and transaction-related functionality. A CSP provides an additional layer of protection that can help reduce the impact of other security weaknesses.
+
+**Reproduction Steps:**
+1. Act as a normal user and interact with the website as burpsuite records every http activity within the site, register your account and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123.
+2. After the purchase I then went to the http history and checked out the activity with url of /api/vouchers/purchase and sent it to the repeater using ctrl+R combination.
+3. Before modifying any request to ensure that I did get the voucher value I got on the web application. I then altered the user card details, more specifically the amount to 120 and altered the CVV to 368 and that is how I successfully bought another voucher from an attacker's perspective.
+
+**Business Impact:**
+Since the users' private banking details are not secured, they can be used by attackers to their own advantage, which could lead to broken trust because customers no longer trust the platform as they will be convinced that their information is not safe and this will lead to them leaving the platform, which could lead to fewer sales and financial loss for the platform. Also with regards to financial loss, the platform might end up running at a loss because attackers can now manipulate the users' banking details to buy their own vouchers at no cost, which will make the platform to lose profit and run at a loss. The web application cannot verify whether the user gave existing banking details or not, since it is a simulated voucher purchase. This could lead to escalated security risks such as fraud because the attackers might end up using this vulnerability to try other tricks on the platform to convince the users into giving out their extra personal information for their own advantage, which will affect the platform's reputation
+
+**Screenshot References:**
+- Vulnerability_01_normal_request.png
+- Vulnerability_01_manipulated_request.png
+- Vulnerability_01_exploitation_proof.png
+
+**Remediation:**
+- For the verification of banking details for the voucher purchase, the development team should introduce a Multi-Factor Authentication [MFA] platform or API that will serve as an extra layer for security purposes. Before the user purchases a voucher, it should verify with the user's banking app, ask them a personal security question or request for a biometric verification so that the transaction can be verified. This platform or API should also notify the users if there is a suspicious transaction or activity that is happening in their account so that they can report it in a timely manner to prevent the issue escalating further.
+- For the insecure users' banking details in the backend, the development team should add an extra security layer in the backend that encrypts the users' personal information so that attackers can hardly read the information and make it harder for them to get access to the user's personal information, This will  enhance the users' privacy.
+- For the voucher purchase to correspond with the MWR balance for integrity purposes, the development team should introduce a platform or a machine learning model that will ensures that each and every transaction that occurs in voucher purchase follows  the ACID transactions rule. A for Atomicity, which means that the voucher transaction either completes fully or not at all. C for Consistency, which means that the MWR bucks balance should remain mathematically correct before and after the user has purchased the voucher, I for Isolation, which means that multiple users can purchase the vouchers without their transactions intefering with one another. Lastly, D for Durability, which means even if the user has bought a voucher, the transaction stays recorded and the balance stays the same even if the platform crashes.
+
+---
+
+### Finding 6: [Missing Content-Security-Policy (CSP) Header]
+
+**Risk Rating:** Low
+
+**Flag:** N/A
+
+**Description:**
+The application does not have a Content-Security-Policy (CSP) header configured. A CSP is a security control that tells a user's web browser which websites and sources it is allowed to load content from, such as scripts, images, stylesheets, and other resources. Without this policy, the browser has fewer restrictions on what content can be loaded and executed within the web application. This means that if another vulnerability, such as a Cross-Site Scripting (XSS) vulnerability, were present in the application, there would be fewer browser-level protections to prevent malicious code from running. This is important because users may provide personal information or interact with pages containing account and transaction-related functionality. A CSP provides an additional layer of protection that can help reduce the impact of other security weaknesses.
+
+**Reproduction Steps:**
+1. Act as a normal user and interact with the website as burpsuite records every http activity within the site, register your account and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123.
+2. After the purchase I then went to the http history and checked out the activity with url of /api/vouchers/purchase and sent it to the repeater using ctrl+R combination.
+3. Before modifying any request to ensure that I did get the voucher value I got on the web application. I then altered the user card details, more specifically the amount to 120 and altered the CVV to 368 and that is how I successfully bought another voucher from an attacker's perspective.
+
+**Business Impact:**
+Since the users' private banking details are not secured, they can be used by attackers to their own advantage, which could lead to broken trust because customers no longer trust the platform as they will be convinced that their information is not safe and this will lead to them leaving the platform, which could lead to fewer sales and financial loss for the platform. Also with regards to financial loss, the platform might end up running at a loss because attackers can now manipulate the users' banking details to buy their own vouchers at no cost, which will make the platform to lose profit and run at a loss. The web application cannot verify whether the user gave existing banking details or not, since it is a simulated voucher purchase. This could lead to escalated security risks such as fraud because the attackers might end up using this vulnerability to try other tricks on the platform to convince the users into giving out their extra personal information for their own advantage, which will affect the platform's reputation
+
+**Screenshot References:**
+- Vulnerability_01_normal_request.png
+- Vulnerability_01_manipulated_request.png
+- Vulnerability_01_exploitation_proof.png
+
+**Remediation:**
+- For the verification of banking details for the voucher purchase, the development team should introduce a Multi-Factor Authentication [MFA] platform or API that will serve as an extra layer for security purposes. Before the user purchases a voucher, it should verify with the user's banking app, ask them a personal security question or request for a biometric verification so that the transaction can be verified. This platform or API should also notify the users if there is a suspicious transaction or activity that is happening in their account so that they can report it in a timely manner to prevent the issue escalating further.
+- For the insecure users' banking details in the backend, the development team should add an extra security layer in the backend that encrypts the users' personal information so that attackers can hardly read the information and make it harder for them to get access to the user's personal information, This will  enhance the users' privacy.
+- For the voucher purchase to correspond with the MWR balance for integrity purposes, the development team should introduce a platform or a machine learning model that will ensures that each and every transaction that occurs in voucher purchase follows  the ACID transactions rule. A for Atomicity, which means that the voucher transaction either completes fully or not at all. C for Consistency, which means that the MWR bucks balance should remain mathematically correct before and after the user has purchased the voucher, I for Isolation, which means that multiple users can purchase the vouchers without their transactions intefering with one another. Lastly, D for Durability, which means even if the user has bought a voucher, the transaction stays recorded and the balance stays the same even if the platform crashes.
+
+---
+
+### Finding 6: [Missing Content-Security-Policy (CSP) Header]
+
+**Risk Rating:** Low
+
+**Flag:** N/A
+
+**Description:**
+The application does not have a Content-Security-Policy (CSP) header configured. A CSP is a security control that tells a user's web browser which websites and sources it is allowed to load content from, such as scripts, images, stylesheets, and other resources. Without this policy, the browser has fewer restrictions on what content can be loaded and executed within the web application. This means that if another vulnerability, such as a Cross-Site Scripting (XSS) vulnerability, were present in the application, there would be fewer browser-level protections to prevent malicious code from running. This is important because users may provide personal information or interact with pages containing account and transaction-related functionality. A CSP provides an additional layer of protection that can help reduce the impact of other security weaknesses.
+
+**Reproduction Steps:**
+1. Act as a normal user and interact with the website as burpsuite records every http activity within the site, register your account and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123.
+2. After the purchase I then went to the http history and checked out the activity with url of /api/vouchers/purchase and sent it to the repeater using ctrl+R combination.
+3. Before modifying any request to ensure that I did get the voucher value I got on the web application. I then altered the user card details, more specifically the amount to 120 and altered the CVV to 368 and that is how I successfully bought another voucher from an attacker's perspective.
+
+**Business Impact:**
+Since the users' private banking details are not secured, they can be used by attackers to their own advantage, which could lead to broken trust because customers no longer trust the platform as they will be convinced that their information is not safe and this will lead to them leaving the platform, which could lead to fewer sales and financial loss for the platform. Also with regards to financial loss, the platform might end up running at a loss because attackers can now manipulate the users' banking details to buy their own vouchers at no cost, which will make the platform to lose profit and run at a loss. The web application cannot verify whether the user gave existing banking details or not, since it is a simulated voucher purchase. This could lead to escalated security risks such as fraud because the attackers might end up using this vulnerability to try other tricks on the platform to convince the users into giving out their extra personal information for their own advantage, which will affect the platform's reputation
+
+**Screenshot References:**
+- Vulnerability_01_normal_request.png
+- Vulnerability_01_manipulated_request.png
+- Vulnerability_01_exploitation_proof.png
+
+**Remediation:**
+- For the verification of banking details for the voucher purchase, the development team should introduce a Multi-Factor Authentication [MFA] platform or API that will serve as an extra layer for security purposes. Before the user purchases a voucher, it should verify with the user's banking app, ask them a personal security question or request for a biometric verification so that the transaction can be verified. This platform or API should also notify the users if there is a suspicious transaction or activity that is happening in their account so that they can report it in a timely manner to prevent the issue escalating further.
+- For the insecure users' banking details in the backend, the development team should add an extra security layer in the backend that encrypts the users' personal information so that attackers can hardly read the information and make it harder for them to get access to the user's personal information, This will  enhance the users' privacy.
+- For the voucher purchase to correspond with the MWR balance for integrity purposes, the development team should introduce a platform or a machine learning model that will ensures that each and every transaction that occurs in voucher purchase follows  the ACID transactions rule. A for Atomicity, which means that the voucher transaction either completes fully or not at all. C for Consistency, which means that the MWR bucks balance should remain mathematically correct before and after the user has purchased the voucher, I for Isolation, which means that multiple users can purchase the vouchers without their transactions intefering with one another. Lastly, D for Durability, which means even if the user has bought a voucher, the transaction stays recorded and the balance stays the same even if the platform crashes.
+
+---
+
+### Finding 6: [Missing Content-Security-Policy (CSP) Header]
+
+**Risk Rating:** Low
+
+**Flag:** N/A
+
+**Description:**
+The application does not have a Content-Security-Policy (CSP) header configured. A CSP is a security control that tells a user's web browser which websites and sources it is allowed to load content from, such as scripts, images, stylesheets, and other resources. Without this policy, the browser has fewer restrictions on what content can be loaded and executed within the web application. This means that if another vulnerability, such as a Cross-Site Scripting (XSS) vulnerability, were present in the application, there would be fewer browser-level protections to prevent malicious code from running. This is important because users may provide personal information or interact with pages containing account and transaction-related functionality. A CSP provides an additional layer of protection that can help reduce the impact of other security weaknesses.
+
+**Reproduction Steps:**
+1. Act as a normal user and interact with the website as burpsuite records every http activity within the site, register your account and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123.
+2. After the purchase I then went to the http history and checked out the activity with url of /api/vouchers/purchase and sent it to the repeater using ctrl+R combination.
+3. Before modifying any request to ensure that I did get the voucher value I got on the web application. I then altered the user card details, more specifically the amount to 120 and altered the CVV to 368 and that is how I successfully bought another voucher from an attacker's perspective.
+
+**Business Impact:**
+Since the users' private banking details are not secured, they can be used by attackers to their own advantage, which could lead to broken trust because customers no longer trust the platform as they will be convinced that their information is not safe and this will lead to them leaving the platform, which could lead to fewer sales and financial loss for the platform. Also with regards to financial loss, the platform might end up running at a loss because attackers can now manipulate the users' banking details to buy their own vouchers at no cost, which will make the platform to lose profit and run at a loss. The web application cannot verify whether the user gave existing banking details or not, since it is a simulated voucher purchase. This could lead to escalated security risks such as fraud because the attackers might end up using this vulnerability to try other tricks on the platform to convince the users into giving out their extra personal information for their own advantage, which will affect the platform's reputation
+
+**Screenshot References:**
+- Vulnerability_01_normal_request.png
+- Vulnerability_01_manipulated_request.png
+- Vulnerability_01_exploitation_proof.png
+
+**Remediation:**
+- For the verification of banking details for the voucher purchase, the development team should introduce a Multi-Factor Authentication [MFA] platform or API that will serve as an extra layer for security purposes. Before the user purchases a voucher, it should verify with the user's banking app, ask them a personal security question or request for a biometric verification so that the transaction can be verified. This platform or API should also notify the users if there is a suspicious transaction or activity that is happening in their account so that they can report it in a timely manner to prevent the issue escalating further.
+- For the insecure users' banking details in the backend, the development team should add an extra security layer in the backend that encrypts the users' personal information so that attackers can hardly read the information and make it harder for them to get access to the user's personal information, This will  enhance the users' privacy.
+- For the voucher purchase to correspond with the MWR balance for integrity purposes, the development team should introduce a platform or a machine learning model that will ensures that each and every transaction that occurs in voucher purchase follows  the ACID transactions rule. A for Atomicity, which means that the voucher transaction either completes fully or not at all. C for Consistency, which means that the MWR bucks balance should remain mathematically correct before and after the user has purchased the voucher, I for Isolation, which means that multiple users can purchase the vouchers without their transactions intefering with one another. Lastly, D for Durability, which means even if the user has bought a voucher, the transaction stays recorded and the balance stays the same even if the platform crashes.
+
+---
+
+### Finding 6: [Missing Content-Security-Policy (CSP) Header]
+
+**Risk Rating:** Low
+
+**Flag:** N/A
+
+**Description:**
+The application does not have a Content-Security-Policy (CSP) header configured. A CSP is a security control that tells a user's web browser which websites and sources it is allowed to load content from, such as scripts, images, stylesheets, and other resources. Without this policy, the browser has fewer restrictions on what content can be loaded and executed within the web application. This means that if another vulnerability, such as a Cross-Site Scripting (XSS) vulnerability, were present in the application, there would be fewer browser-level protections to prevent malicious code from running. This is important because users may provide personal information or interact with pages containing account and transaction-related functionality. A CSP provides an additional layer of protection that can help reduce the impact of other security weaknesses.
+
+**Reproduction Steps:**
+1. Act as a normal user and interact with the website as burpsuite records every http activity within the site, register your account and purchase the voucher with the simulated bank card details. To be more specific I bought a 15 MWR bucks voucher with these details: Amount is 15, Cardholder name:John Tail, Cardnumber: 1526478965412589 and cvv: 123.
+2. After the purchase I then went to the http history and checked out the activity with url of /api/vouchers/purchase and sent it to the repeater using ctrl+R combination.
+3. Before modifying any request to ensure that I did get the voucher value I got on the web application. I then altered the user card details, more specifically the amount to 120 and altered the CVV to 368 and that is how I successfully bought another voucher from an attacker's perspective.
+
+**Business Impact:**
+Since the users' private banking details are not secured, they can be used by attackers to their own advantage, which could lead to broken trust because customers no longer trust the platform as they will be convinced that their information is not safe and this will lead to them leaving the platform, which could lead to fewer sales and financial loss for the platform. Also with regards to financial loss, the platform might end up running at a loss because attackers can now manipulate the users' banking details to buy their own vouchers at no cost, which will make the platform to lose profit and run at a loss. The web application cannot verify whether the user gave existing banking details or not, since it is a simulated voucher purchase. This could lead to escalated security risks such as fraud because the attackers might end up using this vulnerability to try other tricks on the platform to convince the users into giving out their extra personal information for their own advantage, which will affect the platform's reputation
+
+**Screenshot References:**
+- Vulnerability_01_normal_request.png
+- Vulnerability_01_manipulated_request.png
+- Vulnerability_01_exploitation_proof.png
+
+**Remediation:**
+- For the verification of banking details for the voucher purchase, the development team should introduce a Multi-Factor Authentication [MFA] platform or API that will serve as an extra layer for security purposes. Before the user purchases a voucher, it should verify with the user's banking app, ask them a personal security question or request for a biometric verification so that the transaction can be verified. This platform or API should also notify the users if there is a suspicious transaction or activity that is happening in their account so that they can report it in a timely manner to prevent the issue escalating further.
+- For the insecure users' banking details in the backend, the development team should add an extra security layer in the backend that encrypts the users' personal information so that attackers can hardly read the information and make it harder for them to get access to the user's personal information, This will  enhance the users' privacy.
+- For the voucher purchase to correspond with the MWR balance for integrity purposes, the development team should introduce a platform or a machine learning model that will ensures that each and every transaction that occurs in voucher purchase follows  the ACID transactions rule. A for Atomicity, which means that the voucher transaction either completes fully or not at all. C for Consistency, which means that the MWR bucks balance should remain mathematically correct before and after the user has purchased the voucher, I for Isolation, which means that multiple users can purchase the vouchers without their transactions intefering with one another. Lastly, D for Durability, which means even if the user has bought a voucher, the transaction stays recorded and the balance stays the same even if the platform crashes.
+
 ---
 ## Conclusion
 
