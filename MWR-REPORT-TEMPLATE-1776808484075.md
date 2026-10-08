@@ -336,8 +336,6 @@ If successfully exploited, clickjacking could cause a logged-in customer to unin
 ---
 ## Conclusion
 
-[Summarize your overall assessment. How many vulnerabilities were found, and at what severity levels? What is the overall security posture of the application? What are your top priority recommendations for the development team to address first?]
-
 The security assessment of the Imgurrr Mock Web Application identified a total of 12 vulnerabilities and security weaknesses through manual testing with Burp Suite and automated scanning with Nikto. The findings included missing security headers, server information disclosure, and weaknesses in the application's security configuration.
 
 Overall, the application's security posture requires improvement, as the identified weaknesses may reduce its ability to protect users, their information, and sensitive application functionality. Although not every finding directly exposes user data or represents an immediately exploitable vulnerability, the findings highlight areas where additional security controls are necessary. If left unaddressed, exploitable weaknesses could increase the risk of unauthorised access, information disclosure, misuse of application features, and loss of customer trust.
