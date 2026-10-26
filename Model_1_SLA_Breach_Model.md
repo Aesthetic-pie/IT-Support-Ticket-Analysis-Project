@@ -12,11 +12,11 @@ For instance, say we have a medium priority ticket that is queued. Say the targe
 
 I got the dataset from Kaggle, but it was stated that it is synthetic data that was generated using a Python model to resemble real cyber problems.
 
-![Model 1 Preprocessing](Model%201%20Preprocessing.png)
+![Model 1 Preprocesing](Model%201%20Preprocesing.png)
 
 Before I built the model, I checked that the dataset was clean and removed features that were not going to help the model predict, as seen in the screenshot above, because we were looking to predict SLA breach risk.
 
-![Model 1 One-hot Encoding](Model%201%20One%20hot%20Encoding.png)
+![Model 1 One hot encoding](Model%201%20One%20hot%20encoding.png)
 
 I then used one-hot encoding to turn categorical data into numerical values. I used one-hot encoding specifically so that the machine doesn't rank the categorical data according to its importance during its prediction. For features like the SLA plan (standard, gold, platinum), I used numerical ranking so that the machine can analyse the tickets according to their importance.
 
@@ -30,7 +30,7 @@ I then used one-hot encoding to turn categorical data into numerical values. I u
 
 ![Challenge 1](Challenge%201.png)
 
-![Challenge 1 solved](Challenges%201%20solved.png)
+![Challenge 1 solved.](Challenge%201%20solved..png)
 
 ![Challenge 1 solved (continued)](Challenge%201%20solved..png)
 
