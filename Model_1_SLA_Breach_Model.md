@@ -32,8 +32,6 @@ I then used one-hot encoding to turn categorical data into numerical values. I u
 
 ![Challenge 1 solved.](Challenge%201%20solved..png)
 
-![One Hot Enconding](Model_1_One_Hot_Encoding.png)
-
 ![Feature Refining](Model_1_Feature_Refining.png)
 
 ### Challenge 1: Defining the target (Y)
