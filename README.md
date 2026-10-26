@@ -14,6 +14,11 @@ So I developed two  machine learning models:
 
 * Model 2: The second model uses Natural Language Processing (NLP) techniques to analyze written feedback and performance reviews provided by supervisors or senior team members. By identifying recurring patterns and areas of concern in the feedback, the solution aims to generate practical recommendations that can help employees understand where improvement is needed and how their performance could be enhanced. These recommendations are intended to support human decision-making rather than replace managerial judgment.
 
+## How to run the files
+You can install the files alongside the datasets used to train them and run them on your prefered coding environment, but I highly recommend running script.ipynb in Jupyter Notebook or google collab, whilst the python files can be ran in Visual Studio Code or just the terminal
+
+NB: The dataset used to train model one is in a zipped file cos of its big size, whilst the other ones used to run model 2 can be found in csv format in this repo. Also note that Script.ipynb is Model 1, whereas model 2 is feedback_model.py
+
 ## Conclusion
 
 This project demonstrates the potential of Artificial Intelligence (AI), Machine Learning (ML), and Natural Language Processing (NLP) to address practical challenges in IT service management. By exploring ways to improve support ticket resolution within Service Level Agreement (SLA) deadlines and analyze employee performance feedback, the project highlights how data can be transformed into meaningful insights that support more efficient operations and continuous improvement.
