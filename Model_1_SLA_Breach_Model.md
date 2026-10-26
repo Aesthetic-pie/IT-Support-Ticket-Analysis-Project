@@ -32,8 +32,6 @@ I then used one-hot encoding to turn categorical data into numerical values. I u
 
 ![Challenge 1 solved.](Challenge%201%20solved..png)
 
-![Challenge 1 solved (continued)](Challenge%201%20solved..png)
-
 ### Challenge 1: Defining the target (Y)
 
 One of the challenges I faced while building the model was ***defining the target (Y)***. In machine learning, knowing how to define a target is one of the most precise yet difficult things to do. The dataset I was working with didn't have a probability field. I had to create a new field for the SLA breach, which was going to be the target (Y).
