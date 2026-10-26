@@ -38,11 +38,11 @@ I then used one-hot encoding to turn categorical data into numerical values. I u
 
 One of the challenges I faced while building the model was ***defining the target (Y)***. In machine learning, knowing how to define a target is one of the most precise yet difficult things to do. The dataset I was working with didn't have a probability field. I had to create a new field for the SLA breach, which was going to be the target (Y).
 
-At first glance, I defined the target with very precise and refined criteria (for instance: `df["resolution_time_hours"] <= 24`), and I ran the whole code with no errors, only to realise that when I reached the performance metrics to evaluate the model, I was getting an F1-score, recall, accuracy and precision of all 1.0, which means it was 100%. This was very suspicious because no realistic machine learning model gets an accuracy of 100%.
+At first glance, I defined the target with very precise and refined criteria (for instance: `df["resolution_time_hours"] <= 24`) as seen in the first screenshot of three screenshots, and I ran the whole code with no errors, only to realise that when I reached the performance metrics to evaluate the model, I was getting an F1-score, recall, accuracy and precision of all 1.0, which means it was 100%. This was very suspicious because no realistic machine learning model gets an accuracy of 100%.
 
 I knew that something was wrong with my code but I couldn't figure out where exactly, so I explained to AI what was happening and it advised me on what the problem could be, and I found out that what I did was ***overfitting***. My mistake was that I overfed the model too much information on how it should predict. Instead of giving it a few main examples and letting it figure out the rest, I fed it everything, each and every column, which made it cram answers and cheat to get 100% accuracy. What I did was like giving a student the memorandum before they write a test.
 
-So I rewrote the less specific code with fewer examples to resolve the problem, and that stabilised the performance metrics to a reasonable percentage.
+So I rewrote the less specific code with fewer examples to resolve the problem, and that stabilised the performance metrics to a reasonable percentage, as seen on the last two screenshots of three screenshots.
 
 ### Challenge 2: Imbalance
 
