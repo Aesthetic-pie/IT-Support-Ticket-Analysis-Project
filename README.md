@@ -12,7 +12,11 @@ I was reading an ITWeb App article that talks about how employees in some compan
 So I developed two  machine learning models:
 * Model 1: A logistic regression model that predicts a risk probability of a ticket experiencing an SLA breach. It aims to help IT support teams manage and resolve support tickets within their respective Service Level Agreement (SLA) deadlines. By considering each ticket’s priority and required resolution time, the solution can help teams identify tickets that may be at risk of missing their deadlines, allowing them to prioritize their work and respond more effectively.
 
+  ### To read more about model 1 you can find a detailed description about it here: [Model 1](Model_1_SLA_Breach_Model.md)
+
 * Model 2: The second model uses Natural Language Processing (NLP) techniques to analyze written feedback and performance reviews provided by supervisors or senior team members. By identifying recurring patterns and areas of concern in the feedback, the solution aims to generate practical recommendations that can help employees understand where improvement is needed and how their performance could be enhanced. These recommendations are intended to support human decision-making rather than replace managerial judgment.
+
+  ### To read more about model 2 you can find a detailed description about it here: [Model 2](Model_2_Employee_Performance_Model.md)
 
 ## How to run the files
 You can install the files alongside the datasets used to train them and run them on your prefered coding environment, but I highly recommend running script.ipynb in Jupyter Notebook or google collab, whilst the python files can be ran in Visual Studio Code or just the terminal
