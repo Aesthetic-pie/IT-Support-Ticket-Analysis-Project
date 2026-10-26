@@ -1,5 +1,7 @@
 # Model 2: Employee Performance Evaluation Model
 
+### Project Timeline: 18 September 2026 - 27 September 2026 
+
 ## Overview
 
 This model was trained on synthetic data. It evaluates an employee's performance based on the comments they received from their senior/supervisor, who analyses the way they responded to a ticket, using NLP techniques. It then recommends a mentor/colleague who can help them improve their performance.
